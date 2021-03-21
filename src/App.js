@@ -1,25 +1,69 @@
-import logo from './logo.svg';
-import './App.css';
+import * as React from "react";
+
+import InputRange from "./InputRange";
+
+import imageTemplate from "./sunsetorrisewhatever.jpg";
+
+import "./App.css";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const [imageFilterObject, setImageFilterObject] = React.useState({});
+
+	const buildImageStyleObject = () => {
+		const styleObjectsArray = Object.values(imageFilterObject);
+
+		const cssValueStringsArray = styleObjectsArray.map((element) => {
+			let elementKey = Object.keys(element)[0];
+
+			let elementValue = element[elementKey];
+
+			let cssValueString = `${elementKey}(${elementValue})`;
+
+			return cssValueString;
+		});
+
+		const fullCSSValueString = cssValueStringsArray.join(" ");
+
+		console.log(fullCSSValueString);
+
+		return {
+			filter: fullCSSValueString,
+		};
+	};
+
+	return (
+		<div className="app">
+			<img
+				src={imageTemplate}
+				style={buildImageStyleObject()}
+				alt={"image-template"}
+			/>
+
+			<InputRange
+				imageFilterObject={imageFilterObject}
+				setImageFilterObject={setImageFilterObject}
+				cssProperty={"brightness"}
+				minValue={-50}
+				maxValue={50}
+			/>
+
+			<InputRange
+				imageFilterObject={imageFilterObject}
+				setImageFilterObject={setImageFilterObject}
+				cssProperty={"blur"}
+				minValue={-10}
+				maxValue={10}
+			/>
+
+			<InputRange
+				imageFilterObject={imageFilterObject}
+				setImageFilterObject={setImageFilterObject}
+				cssProperty={"contrast"}
+				minValue={-50}
+				maxValue={50}
+			/>
+		</div>
+	);
 }
 
 export default App;
